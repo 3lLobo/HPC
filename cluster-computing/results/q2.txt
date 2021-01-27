@@ -1,0 +1,11 @@
+OpenMP parallelism
+
+CPUS:  24
+Pi estimate:3.14159262158983754176, obtained in 0.113285 seconds, 31250000 iterations
+Pi estimate:3.14159263758970253022, obtained in 0.199541 seconds, 62500000 iterations
+Pi estimate:3.14159264558975248605, obtained in 0.389605 seconds, 125000000 iterations
+Pi estimate:3.14159264958976258697, obtained in 0.766735 seconds, 250000000 iterations
+Pi estimate:3.14159265158978140420, obtained in 1.528595 seconds, 500000000 iterations
+Pi estimate:3.14159265259062125963, obtained in 3.097289 seconds, 1000000000 iterations
+Pi estimate:3.14159265308979795961, obtained in 6.060747 seconds, 2000000000 iterations
+DONE 
