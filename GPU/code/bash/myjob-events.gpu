@@ -1,0 +1,6 @@
+#!/bin/bash
+#SBATCH -t 3:00
+#SBATCH -n 1 
+#SBATCH -p gpu_shared
+#SBATCH --gres=gpu:1 
+srun ./vector-add-events
