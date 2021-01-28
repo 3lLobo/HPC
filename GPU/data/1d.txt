@@ -1,0 +1,24 @@
+Adding two vectors of 655360 integer elements.
+Operation number is 0.
+vector-add (sequential): 		  = 0.00395367 seconds
+vector-add (kernel): 		  = 9.95224e-05 seconds
+vector-add (memory): 		  = 0.0042089 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Operation number is 1.
+vector-add (sequential): 		  = 0.00394573 seconds
+vector-add (kernel): 		  = 9.50588e-05 seconds
+vector-add (memory): 		  = 0.00604463 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Operation number is 2.
+vector-add (sequential): 		  = 0.00141825 seconds
+vector-add (kernel): 		  = 9.91925e-05 seconds
+vector-add (memory): 		  = 0.00301901 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Operation number is 3.
+vector-add (sequential): 		  = 0.00166204 seconds
+vector-add (kernel): 		  = 0.000100336 seconds
+vector-add (memory): 		  = 0.00298887 seconds
+results OK!

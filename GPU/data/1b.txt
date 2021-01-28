@@ -1,0 +1,25 @@
+Adding two vectors of 256 integer elements.
+vector-add (sequential): 		  = 5.13846e-07 seconds
+vector-add (kernel): 		  = 2.61954e-05 seconds
+vector-add (memory): 		  = 7.22108e-05 seconds
+results OK!
+Adding two vectors of 1024 integer elements.
+vector-add (sequential): 		  = 1.83385e-06 seconds
+vector-add (kernel): 		  = 1.96831e-05 seconds
+vector-add (memory): 		  =  4.07e-05 seconds
+results OK!
+Adding two vectors of 65536 integer elements.
+vector-add (sequential): 		  = 0.000390598 seconds
+vector-add (kernel): 		  = 3.98831e-05 seconds
+vector-add (memory): 		  = 0.000679957 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+vector-add (sequential): 		  = 0.00393934 seconds
+vector-add (kernel): 		  = 8.82831e-05 seconds
+vector-add (memory): 		  = 0.00395912 seconds
+results OK!
+Adding two vectors of 1000000 integer elements.
+vector-add (sequential): 		  = 0.00347969 seconds
+vector-add (kernel): 		  = 0.000141448 seconds
+vector-add (memory): 		  = 0.00668795 seconds
+results OK!

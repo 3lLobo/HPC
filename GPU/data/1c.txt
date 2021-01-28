@@ -1,0 +1,30 @@
+Adding two vectors of 655360 integer elements.
+Threadsize is 64.
+vector-add (sequential): 		  = 0.00496455 seconds
+vector-add (kernel): 		  = 0.00010903 seconds
+vector-add (memory): 		  = 0.0063788 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Threadsize is 128.
+vector-add (sequential): 		  = 0.00417828 seconds
+vector-add (kernel): 		  = 0.000105684 seconds
+vector-add (memory): 		  = 0.0043587 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Threadsize is 256.
+vector-add (sequential): 		  = 0.00146462 seconds
+vector-add (kernel): 		  = 0.000104475 seconds
+vector-add (memory): 		  = 0.00305318 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Threadsize is 512.
+vector-add (sequential): 		  = 0.00142837 seconds
+vector-add (kernel): 		  = 0.000105598 seconds
+vector-add (memory): 		  = 0.00308185 seconds
+results OK!
+Adding two vectors of 655360 integer elements.
+Threadsize is 1024.
+vector-add (sequential): 		  = 0.00142994 seconds
+vector-add (kernel): 		  = 0.000105305 seconds
+vector-add (memory): 		  = 0.00306922 seconds
+results OK!
