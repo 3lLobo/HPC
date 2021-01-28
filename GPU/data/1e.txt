@@ -1,0 +1,36 @@
+Adding two vectors of 65536 integer elements.
+kernel invocation took 		0.01072 milliseconds
+Done!
+Adding two vectors of 655360 integer elements.
+kernel invocation took 		0.021504 milliseconds
+Done!
+Adding two vectors of 1000000 integer elements.
+kernel invocation took 		0.040512 milliseconds
+Done!
+Subtracting two vectors of 65536 integer elements.
+kernel invocation took 		0.007552 milliseconds
+Done!
+Subtracting two vectors of 655360 integer elements.
+kernel invocation took 		0.02352 milliseconds
+Done!
+Subtracting two vectors of 1000000 integer elements.
+kernel invocation took 		0.03424 milliseconds
+Done!
+Multiply two vectors of 65536 integer elements.
+kernel invocation took 		0.00608 milliseconds
+Done!
+Multiply two vectors of 655360 integer elements.
+kernel invocation took 		0.027904 milliseconds
+Done!
+Multiply two vectors of 1000000 integer elements.
+kernel invocation took 		0.039008 milliseconds
+Done!
+Divide two vectors of 65536 integer elements.
+kernel invocation took 		0.006688 milliseconds
+Done!
+Divide two vectors of 655360 integer elements.
+kernel invocation took 		0.026912 milliseconds
+Done!
+Divide two vectors of 1000000 integer elements.
+kernel invocation took 		0.040992 milliseconds
+Done!
