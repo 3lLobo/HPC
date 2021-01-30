@@ -229,8 +229,8 @@ int DecryptCuda (int n, char* data_in, char* data_out, int key) {
 
 int main(int argc, char* argv[]) {
 
-    int key = 4;
-    key = key % 95;
+    int key = 444;
+    key = key % 127;
     int n;
 
     n = fileSize();
