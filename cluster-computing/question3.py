@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+from matplotlib.pyplot import figure
 
-with open('results/q3.txt') as f:
+
+with open('cluster-computing/results/q3.txt') as f:
     lines = f.readlines()[2:]
 
 cpus = []
@@ -36,10 +40,17 @@ for s in range(len(speedup)):
 print(cpus)
 print(runtime)
 
-plt.plot(cpus, speedup)
+figure(num=None, figsize=(6,3),)
+sns.set()
+sns.set_context("paper")
+
+plt.plot(np.array(cpus), speedup, 'g', )
+plt.fill_between(np.array(cpus), speedup, facecolor='green', alpha=0.1)
 plt.xlabel("Threads")
 plt.ylabel("Speedup")
+plt.ylim(0, np.max(speedup)*11/10)
+plt.xlim(1, np.max(cpus))
 plt.title(" Estimation of Pi LISA (1-24 threads)")
-plt.savefig("2m_lisa_threads1-24.png")
+plt.savefig("cluster-computing/2m_lisa_threads1-24.png", bbox_inches='tight')
 
 plt.show()
