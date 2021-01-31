@@ -244,8 +244,8 @@ int DecryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
 int main(int argc, char* argv[]) {
     
-    int key[256];
-    int keySize = sizeof(key) / sizeof(int);    
+    int keySize = atoi(argv[1]);
+    int key[keySize];
     
     cout << "KeySize is " << keySize << "." << endl;
 
