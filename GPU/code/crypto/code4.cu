@@ -136,7 +136,6 @@ int EncryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
     int* passKey;
     checkCudaCall(cudaMalloc((void **) &passKey, keySize * sizeof(int)));  
-    checkCudaCall(cudaGetLastError());
 
     char* deviceDataIn = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
@@ -193,7 +192,6 @@ int DecryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
     int* passKey;
     checkCudaCall(cudaMalloc((void **) &passKey, keySize * sizeof(int)));
-    checkCudaCall(cudaGetLastError());
 
     char* deviceDataIn = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
