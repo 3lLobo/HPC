@@ -254,6 +254,9 @@ int main(int argc, char* argv[]) {
 
     // generate random numbers int interval <0, 127>
    for (int i = 0; i < keySize; i++){
+      if (isnan(key[i])){
+	  key[i] = (int)key[i];
+      }
       key[i] = rand() % 127 + 1;
     }
     
