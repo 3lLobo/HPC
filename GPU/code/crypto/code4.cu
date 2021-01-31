@@ -136,6 +136,7 @@ int EncryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
     int* passKey;
     checkCudaCall(cudaMalloc((void **) &passKey, keySize * sizeof(int)));  
+    checkCudaCall(cudaGetLastError());
 
     char* deviceDataIn = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
@@ -192,6 +193,7 @@ int DecryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
     int* passKey;
     checkCudaCall(cudaMalloc((void **) &passKey, keySize * sizeof(int)));
+    checkCudaCall(cudaGetLastError());
 
     char* deviceDataIn = NULL;
     checkCudaCall(cudaMalloc((void **) &deviceDataIn, n * sizeof(char)));
@@ -242,11 +244,17 @@ int DecryptCuda (int n, char* data_in, char* data_out, int key[], int keySize) {
 
 int main(int argc, char* argv[]) {
     
-    int key[10] = {999, 12, 433, 94, 4, 88, 743, 23, 1, 10};
-    int keySize = sizeof(key) / sizeof(int);
+    int key[256];
+    int keySize = sizeof(key) / sizeof(int);    
+    
+    cout << "KeySize is " << keySize << "." << endl;
 
-    for (int i = 0; i < keySize; i++){
-        key[i] = key[i] % 127;
+    // set seed for reproduction purposes
+    srand(0);
+
+    // generate random numbers int interval <0, 127>
+   for (int i = 0; i < keySize; i++){
+      key[i] = rand() % 127 + 1;
     }
     
     int n;
@@ -257,7 +265,9 @@ int main(int argc, char* argv[]) {
     }
 
     char* data_in = new char[n];
-    char* data_out = new char[n];    
+    char* data_in_seq = new char[n];
+    char* data_out = new char[n];
+     
     readData("original.data", data_in); 
 
     cout << "Encrypting a file of " << n << " characters." << endl;
@@ -267,11 +277,11 @@ int main(int argc, char* argv[]) {
     EncryptCuda(n, data_in, data_out, key, keySize);
     writeData(n, "cuda.data", data_out);  
 
-   // readData("sequential.data", data_in);
+    readData("sequential.data", data_in_seq);
     readData("cuda.data", data_in);
 
     cout << "Decrypting a file of " << n << " characters" << endl;
-    DecryptSeq(n, data_in, data_out, key, keySize);
+    DecryptSeq(n, data_in_seq, data_out, key, keySize);
     writeData(n, "sequential_decrypted.data", data_out);
     DecryptCuda(n, data_in, data_out, key, keySize); 
     writeData(n, "recovered.data", data_out); 
