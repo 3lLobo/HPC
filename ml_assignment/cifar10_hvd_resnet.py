@@ -8,7 +8,7 @@ import horovod.tensorflow.keras as hvd
 import wandb
 from wandb.keras import WandbCallback
 from time import time
-from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard, ReduceLROnPlateau
 
 
 wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
@@ -20,7 +20,7 @@ batch_size = 128
 num_classes = 10
 
 # Horovod: adjust number of epochs based on number of GPUs.
-epochs = int(math.ceil(12.0 / hvd.size()))
+epochs = int(math.ceil(25.0 / hvd.size()))
 
 # Input image dimensions
 img_rows, img_cols = 32, 32
@@ -46,19 +46,8 @@ print('x_train shape:', x_train.shape)
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
 
-# model = Sequential()
-# model.add(Conv2D(32, kernel_size=(3, 3),
-#                 activation='relu',
-#                 input_shape=input_shape))
-# model.add(Conv2D(64, (3, 3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Dropout(0.25))
-# model.add(Flatten())
-# model.add(Dense(128, activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Dense(num_classes, activation='softmax'))
 
-effNet = tf.keras.applications.EfficientNetB0(
+resNet = tf.keras.applications.ResNet50(
     include_top=False,
     weights="imagenet",
     input_tensor=None,
@@ -68,10 +57,10 @@ effNet = tf.keras.applications.EfficientNetB0(
     classifier_activation=None,
     )
 
-effNet.trainable = False
+resNet.trainable = False
 
 model = Sequential(
-    [Input(shape=(32, 32, 3)), effNet, Dense(num_classes, activation='softmax'),]
+    [Input(shape=(32, 32, 3)), resNet, Dense(num_classes, activation='softmax'),]
 )
 
 # model = Sequential()
@@ -79,7 +68,8 @@ model = Sequential(
 # model.add(Dense(num_classes, activation='softmax'))
 
 # Horovod: adjust learning rate based on number of GPUs.
-opt = tf.keras.optimizers.Adadelta(1.0 * hvd.size())
+scaled_lr = 1. * hvd.size()
+opt = tf.keras.optimizers.Adadelta(scaled_lr)
 
 # Horovod: add Horovod Distributed Optimizer.
 opt = hvd.DistributedOptimizer(opt)
@@ -94,6 +84,19 @@ callbacks = [
     # This is necessary to ensure consistent initialization of all workers when
     # training is started with random weights or restored from a checkpoint.
     hvd.callbacks.BroadcastGlobalVariablesCallback(0),
+    # Horovod: average metrics among workers at the end of every epoch.
+    #
+    # Note: This callback must be in the list before the ReduceLROnPlateau,
+    # TensorBoard or other metrics-based callbacks.
+    hvd.callbacks.MetricAverageCallback(),
+
+    # Horovod: using `lr = 1.0 * hvd.size()` from the very beginning leads to worse final
+    # accuracy. Scale the learning rate `lr = 1.0` ---> `lr = 1.0 * hvd.size()` during
+    # the first five epochs. See https://arxiv.org/abs/1706.02677 for details.
+    hvd.callbacks.LearningRateWarmupCallback(initial_lr=scaled_lr, warmup_epochs=5, verbose=1),
+
+    # Reduce the learning rate if training plateaues.
+    ReduceLROnPlateau(patience=10, verbose=1),
     WandbCallback(), tensorboard,
     ]
 
