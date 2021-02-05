@@ -3,7 +3,7 @@
 #SBATCH -o hvd_test_out.txt
 #SBATCH -e hvd_test_err.txt
 
-#SBATCH -t 0:30:00
+#SBATCH -t 1:00:00
 
 #SBATCH --partition shared
 
@@ -21,4 +21,4 @@ module load OpenMPI/4.0.3-GCC-9.3.0
 module load Python/3.8.2-GCCcore-9.3.0
 export PYTHONPATH="~/miniconda3/bin/python"
 
-time mpirun -np 4  PYTHONPATH cifar_hvd_2.py
+time mpirun -np 4  PYTHONPATH cifar_hvd_effnet.py
