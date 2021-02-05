@@ -21,4 +21,4 @@ module load OpenMPI/4.0.3-GCC-9.3.0
 module load Python/3.8.2-GCCcore-9.3.0
 export PYTHONPATH="~/miniconda3/bin/python"
 
-time mpirun -np 4  PYTHONPATH cifar_hvd_effnet.py
+time mpirun -np 4  PYTHONPATH cifar10_hvd_effnet.py
