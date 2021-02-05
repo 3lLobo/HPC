@@ -1,0 +1,12 @@
+diff --git a/ml_assignment/cifar10_hvd_2.py b/ml_assignment/cifar10_hvd_2.py
+index 491bb50..32c6c72 100644
+--- a/ml_assignment/cifar10_hvd_2.py
++++ b/ml_assignment/cifar10_hvd_2.py
+@@ -68,6 +68,7 @@ effNet = tf.keras.applications.EfficientNetB0(
+     classifier_activation=None,
+     )
+ 
++effNet.trainable = False
+ model = Sequential()
+ model.add(effNet)
+ model.add(Dense(num_classes, activation='softmax'))

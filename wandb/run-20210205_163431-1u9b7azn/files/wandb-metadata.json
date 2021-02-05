@@ -1,0 +1,22 @@
+{
+    "os": "Linux-5.4.0-65-generic-x86_64-with-glibc2.10",
+    "python": "3.8.5",
+    "heartbeatAt": "2021-02-05T15:34:34.466393",
+    "startedAt": "2021-02-05T15:34:31.404072",
+    "docker": null,
+    "cpu_count": 4,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "codePath": "ml_assignment/cifar10_hvd_2.py",
+    "program": "/home/wolf/MyCode/HPC/ml_assignment/cifar10_hvd_2.py",
+    "git": {
+        "remote": "https://github.com/ccfelius/HPC",
+        "commit": "b7f32425c0835e2f3cdc6c575ccb52487f62a5e5"
+    },
+    "email": "flocwolf@gmail.com",
+    "root": "/home/wolf/MyCode/HPC",
+    "host": "I-Wolf",
+    "username": "wolf",
+    "executable": "/home/wolf/miniconda3/envs/wolf/bin/python"
+}

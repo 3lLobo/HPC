@@ -1,0 +1,15 @@
+2021-02-05 16:47:42,031 INFO    MainThread:9625 [wandb_setup.py:_flush():70] setting env: {}
+2021-02-05 16:47:42,031 INFO    MainThread:9625 [wandb_setup.py:_flush():70] multiprocessing start_methods=fork,spawn,forkserver
+2021-02-05 16:47:42,031 INFO    MainThread:9625 [wandb_setup.py:_flush():70] setting login settings: {'api_key': '6d802b44b97d25931bacec09c5f1095e6c28fe36'}
+2021-02-05 16:47:42,031 INFO    MainThread:9625 [wandb_setup.py:_flush():70] setting login settings: {'api_key': '6d802b44b97d25931bacec09c5f1095e6c28fe36'}
+2021-02-05 16:47:42,031 INFO    MainThread:9625 [wandb_setup.py:_flush():70] setting login settings: {}
+2021-02-05 16:47:42,032 INFO    MainThread:9625 [wandb_init.py:_log_setup():318] Logging user logs to /home/wolf/MyCode/HPC/wandb/run-20210205_164742-waz8wqc3/logs/debug.log
+2021-02-05 16:47:42,032 INFO    MainThread:9625 [wandb_init.py:_log_setup():319] Logging internal logs to /home/wolf/MyCode/HPC/wandb/run-20210205_164742-waz8wqc3/logs/debug-internal.log
+2021-02-05 16:47:45,152 INFO    MainThread:9625 [wandb_run.py:_console_start():1399] atexit reg
+2021-02-05 16:47:45,153 INFO    MainThread:9625 [wandb_run.py:_redirect():1262] redirect: SettingsConsole.REDIRECT
+2021-02-05 16:47:45,153 INFO    MainThread:9625 [wandb_run.py:_redirect():1267] Redirecting console.
+2021-02-05 16:47:45,153 INFO    MainThread:9625 [redirect.py:install():213] install start
+2021-02-05 16:47:45,154 INFO    MainThread:9625 [redirect.py:install():228] install stop
+2021-02-05 16:47:45,155 INFO    MainThread:9625 [redirect.py:install():213] install start
+2021-02-05 16:47:45,157 INFO    MainThread:9625 [redirect.py:install():228] install stop
+2021-02-05 16:47:45,157 INFO    MainThread:9625 [wandb_run.py:_redirect():1313] Redirects installed.

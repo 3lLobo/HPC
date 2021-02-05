@@ -1,0 +1,36 @@
+diff --git a/ml_assignment/cifar10_hvd_2.py b/ml_assignment/cifar10_hvd_2.py
+index 1a8f3e4..0f2febb 100644
+--- a/ml_assignment/cifar10_hvd_2.py
++++ b/ml_assignment/cifar10_hvd_2.py
+@@ -1,6 +1,6 @@
+ import tensorflow as tf
+ from tensorflow.keras.models import Sequential
+-from tensorflow.keras.layers import Dense, Dropout, Flatten
++from tensorflow.keras.layers import Dense, Activation
+ from tensorflow.keras.layers import Conv2D, MaxPooling2D
+ from tensorflow.keras import backend as K
+ import math
+@@ -57,16 +57,20 @@ print(x_test.shape[0], 'test samples')
+ # model.add(Dropout(0.5))
+ # model.add(Dense(num_classes, activation='softmax'))
+ 
+-model = tf.keras.applications.EfficientNetB0(
++effNet = tf.keras.applications.EfficientNetB0(
+     include_top=True,
+     weights="imagenet",
+     input_tensor=None,
+     input_shape=None,
+     pooling=None,
+-    classes=num_classes,
+-    classifier_activation="softmax",
++    classes=1000,
++    classifier_activation=None,
+     )
+ 
++model = Sequential()
++model.add(effNet)
++model.add(Dense(num_classes, activation='sofmax'))
++
+ # Horovod: adjust learning rate based on number of GPUs.
+ opt = tf.keras.optimizers.Adadelta(1.0 * hvd.size())
+ 
