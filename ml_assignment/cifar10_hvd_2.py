@@ -7,7 +7,7 @@ import math
 import horovod.tensorflow.keras as hvd
 import wandb
 from time import time
-from keras.callbacks import TensorBoard
+from tensorflow.keras.callbacks import TensorBoard
 
 
 wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
