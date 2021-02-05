@@ -63,10 +63,6 @@ model = Sequential(
     [Input(shape=(32, 32, 3)), resNet, Dense(num_classes, activation='softmax'),]
 )
 
-# model = Sequential()
-# model.add(effNet)
-# model.add(Dense(num_classes, activation='softmax'))
-
 # Horovod: adjust learning rate based on number of GPUs.
 scaled_lr = 1. * hvd.size()
 opt = tf.keras.optimizers.Adadelta(scaled_lr)

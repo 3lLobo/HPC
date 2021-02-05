@@ -46,37 +46,17 @@ print('x_train shape:', x_train.shape)
 print(x_train.shape[0], 'train samples')
 print(x_test.shape[0], 'test samples')
 
-# model = Sequential()
-# model.add(Conv2D(32, kernel_size=(3, 3),
-#                 activation='relu',
-#                 input_shape=input_shape))
-# model.add(Conv2D(64, (3, 3), activation='relu'))
-# model.add(MaxPooling2D(pool_size=(2, 2)))
-# model.add(Dropout(0.25))
-# model.add(Flatten())
-# model.add(Dense(128, activation='relu'))
-# model.add(Dropout(0.5))
-# model.add(Dense(num_classes, activation='softmax'))
-
-effNet = tf.keras.applications.EfficientNetB0(
-    include_top=False,
-    weights="imagenet",
-    input_tensor=None,
-    input_shape=(32, 32, 3),
-    pooling=None,
-    classes=1000,
-    classifier_activation=None,
-    )
-
-effNet.trainable = False
-
-model = Sequential(
-    [Input(shape=(32, 32, 3)), effNet, Dense(num_classes, activation='softmax'),]
-)
-
-# model = Sequential()
-# model.add(effNet)
-# model.add(Dense(num_classes, activation='softmax'))
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3, 3),
+                activation='relu',
+                input_shape=input_shape))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(num_classes, activation='softmax'))
 
 # Horovod: adjust learning rate based on number of GPUs.
 scaled_lr = 1. * hvd.size()
