@@ -44,3 +44,5 @@ echo "cd "\$TMPDIR"/\$PATH_TO_SOURCE" >> "jobs/""$exp_name"".sh"
 echo "time \$PYTHON -u cifar10_hvd_"$1".py" >> "jobs/""$exp_name"".sh"
 echo "mkdir "\$HOME"/"ml_assignment"/"$exp_name"">> "jobs/""$exp_name"".sh"
 echo "cp logs " "\$HOME"/"ml_assignment"/>> "jobs/""$exp_name"".sh"
+
+sbatch jobs/$exp_name".sh"
