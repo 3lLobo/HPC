@@ -5,7 +5,13 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras import backend as K
 import math
 import horovod.tensorflow.keras as hvd
+import wandb
+from time import time
+from keras.callbacks import TensorBoard
 
+
+wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
+wandb.init(project='HPC_ML')
 
 # Horovod: initialize Horovod.
 hvd.init()
@@ -71,17 +77,20 @@ model.compile(loss=tf.keras.losses.sparse_categorical_crossentropy,
               optimizer=opt,
               metrics=['accuracy'])
 
+tensorboard = TensorBoard(log_dir='logs/{}'.format(time()))
 callbacks = [
     # Horovod: broadcast initial variable states from rank 0 to all other processes.
     # This is necessary to ensure consistent initialization of all workers when
     # training is started with random weights or restored from a checkpoint.
     hvd.callbacks.BroadcastGlobalVariablesCallback(0),
+    tensorboard
 ]
 
 # Horovod: save checkpoints only on worker 0 to prevent other workers from corrupting them.
 # if hvd.rank() == 0:
 #     callbacks.append(keras.callbacks.ModelCheckpoint('./checkpoint-{epoch}.h5'))
 
+wandb.watch(model)
 model.fit(x_train, y_train,
           batch_size=batch_size,
           callbacks=callbacks,
