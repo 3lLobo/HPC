@@ -68,6 +68,7 @@ effNet = tf.keras.applications.EfficientNetB0(
     classifier_activation=None,
     )
 
+effNet.trainable = False
 model = Sequential()
 model.add(effNet)
 model.add(Dense(num_classes, activation='softmax'))
