@@ -2,8 +2,8 @@
 #SBATCH -J hvd_effnet_1
 #SBATCH -o hvd_out_effnet_1.txt
 #SBATCH -e hvd_err_effnet_1.txt
+#SBATCH -t 01:11:00
 #SBATCH --nodes 1
-#SBATCH -t 1:11:00
 #SBATCH -p short
 #SBATCH --ntasks-per-node=4
 # Loading modules
