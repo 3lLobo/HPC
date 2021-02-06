@@ -16,14 +16,12 @@ echo "#SBATCH -J hvd_"$1"_"$2"" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -o hvd_out_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -e hvd_err_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 
-echo "#SBATCH -N 1" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH --nodes 1" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -t "$runtime":11:00" >> "jobs/""$exp_name"".sh"
-echo "#SBATCH -p gpu_titanrtx_shared" >> "jobs/""$exp_name"".sh"
-echo "#SBATCH --gres=gpu:1" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH -p short" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH --ntasks-per-node=4" >> "jobs/""$exp_name"".sh"
 echo "# Loading modules" >> "jobs/""$exp_name"".sh"
 echo "module purge" >> "jobs/""$exp_name"".sh"
-
-
 
 
 echo "module load 2020" >> "jobs/""$exp_name"".sh"

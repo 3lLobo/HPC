@@ -2,10 +2,10 @@
 #SBATCH -J hvd_effnet_1
 #SBATCH -o hvd_out_effnet_1.txt
 #SBATCH -e hvd_err_effnet_1.txt
-#SBATCH -N 1
+#SBATCH --nodes 1
 #SBATCH -t 1:11:00
-#SBATCH -p gpu_titanrtx_shared
-#SBATCH --gres=gpu:1
+#SBATCH -p short
+#SBATCH --ntasks-per-node=4
 # Loading modules
 module purge
 module load 2020
