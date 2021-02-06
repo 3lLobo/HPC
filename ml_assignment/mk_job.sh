@@ -2,7 +2,7 @@
 
 rm -r jobs/*
 
-runtime=01
+runtime=1
 
 
 
@@ -16,7 +16,7 @@ echo "#SBATCH -J hvd_"$1"_"$2"" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -o hvd_out_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -e hvd_err_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 
-echo "#SBATCH -t "$runtime":11:00" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH -t "$runtime":00:00" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH --nodes 1" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -p short" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH --ntasks-per-node=4" >> "jobs/""$exp_name"".sh"
