@@ -17,7 +17,7 @@ echo "#SBATCH -o hvd_out_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -e hvd_err_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 
 echo "#SBATCH -t "$runtime":30:00" >> "jobs/""$exp_name"".sh"
-echo "#SBATCH --nodes 1" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH --nodes "$2"" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH --ntasks-per-node=4" >> "jobs/""$exp_name"".sh"
 echo "# Loading modules" >> "jobs/""$exp_name"".sh"
 

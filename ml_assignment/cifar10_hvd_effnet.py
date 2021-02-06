@@ -6,6 +6,7 @@ from tensorflow.keras import Input
 from tensorflow.keras import backend as K
 import math
 import horovod.tensorflow.keras as hvd
+from tensorflow.python.keras.backend import learning_phase
 import wandb
 from wandb.keras import WandbCallback
 from time import time
@@ -109,3 +110,18 @@ model.fit(x_train, y_train,
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+# Fijne tune
+model.trainable = True
+opt = tf.keras.optimizers.Adadelta(1e-5)
+opt = hvd.DistributedOptimizer(opt)
+model.compile(loss=tf.keras.losses.sparse_categorical_crossentropy, optimizer=opt, metrics=['accuracy'])
+model.fit(x_train, y_train,
+          batch_size=batch_size,
+          callbacks=callbacks,
+          epochs=1,
+          verbose=1 if hvd.rank()==0 else 0,
+          validation_data=(x_test, y_test))
+score = model.evaluate(x_test, y_test, verbose=0)
+print('Ftuned Test loss:', score[0])
+print('Ftuned Test accuracy:', score[1])
