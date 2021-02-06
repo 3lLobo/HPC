@@ -59,7 +59,7 @@ effNet = tf.keras.applications.EfficientNetB0(
 effNet.trainable = False
 
 model = Sequential(
-    [Input(shape=(32, 32, 3)), effNet, Dense(num_classes, activation='softmax'),]
+    [Input(shape=(32, 32, 3)), effNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
 )
 
 # Horovod: adjust learning rate based on number of GPUs.
