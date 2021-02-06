@@ -1,6 +1,10 @@
 .vscode
 .vscode/
 __pycache__/
+ml_assignment/wandb/
+wandb/
+logs/
 
 # on Lisa
 *.slurm
+

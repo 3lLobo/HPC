@@ -1,8 +1,9 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Input
+from tensorflow.keras.layers import Dense, Activation
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras import backend as K
+from tensorflow.keras import Input
 import math
 import horovod.tensorflow.keras as hvd
 import wandb
@@ -60,7 +61,7 @@ resNet = tf.keras.applications.ResNet50(
 resNet.trainable = False
 
 model = Sequential(
-    [Input(shape=(32, 32, 3)), resNet, Dense(num_classes, activation='softmax'),]
+    [Input(shape=(32, 32, 3)), resNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
 )
 
 # Horovod: adjust learning rate based on number of GPUs.

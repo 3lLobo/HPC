@@ -1,8 +1,9 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation, Input
+from tensorflow.keras.layers import Dense, Activation, Dropout, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras import backend as K
+from tensorflow.keras import Input
 import math
 import horovod.tensorflow.keras as hvd
 import wandb
