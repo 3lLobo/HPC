@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash -l
 #SBATCH -J hvd_effnet_1
 #SBATCH -o hvd_out_effnet_1.txt
 #SBATCH -e hvd_err_effnet_1.txt
-#SBATCH -t 01:11:00
+#SBATCH -t 1:00:00
 #SBATCH --nodes 1
 #SBATCH -p short
 #SBATCH --ntasks-per-node=4
@@ -16,7 +16,6 @@ ENV='ml'
 PYTHON=~/miniconda3/envs/${ENV}/bin/python
 PIP=~/miniconda3/envs/${ENV}/bin/pip
 export PATH_TO_SOURCE=ml_assignment
-CUDA_LAUNCH_BLOCKING=1
 # Copy input data from home to scratch
 cp -R $HOME/$PATH_TO_SOURCE $TMPDIR
 cd $TMPDIR/$PATH_TO_SOURCE
