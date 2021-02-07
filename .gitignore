@@ -2,6 +2,8 @@
 .vscode/
 __pycache__/
 ml_assignment/wandb/
+ml_assignment/results/
+
 wandb/
 logs/
 

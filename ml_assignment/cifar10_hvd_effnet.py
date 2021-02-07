@@ -1,8 +1,8 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation
+from tensorflow.keras.layers import Dense, Activation, GlobalAveragePooling2D
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
-from tensorflow.keras import Input
+from tensorflow.keras import Input, Model
 from tensorflow.keras import backend as K
 import math
 import horovod.tensorflow.keras as hvd
@@ -60,9 +60,24 @@ effNet = tf.keras.applications.EfficientNetB0(
 
 effNet.trainable = False
 
-model = Sequential(
-    [Input(shape=(32, 32, 3)), effNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
-)
+# model = Sequential(
+#     [Input(shape=(32, 32, 3)), effNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
+# )
+
+# model.summary()
+
+inputs = Input(shape=(32, 32, 3))
+# We make sure that the base_model is running in inference mode here,
+# by passing `training=False`. This is important for fine-tuning, as you will
+# learn in a few paragraphs.
+x = effNet(inputs, training=False)
+# Convert features of shape `base_model.output_shape[1:]` to vectors
+x = GlobalAveragePooling2D()(x)
+# A Dense classifier with a single unit (binary classification)
+outputs = Dense(num_classes, activation='softmax')(x)
+model = Model(inputs, outputs)
+
+model.summary()
 
 # Horovod: adjust learning rate based on number of GPUs.
 scaled_lr = 1. * hvd.size()
