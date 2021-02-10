@@ -69,6 +69,8 @@ opt = hvd.DistributedOptimizer(opt)
 model.compile(loss=tf.keras.losses.sparse_categorical_crossentropy,
               optimizer=opt,
               metrics=['accuracy'])
+              
+model.summary()
 
 tensorboard = TensorBoard(log_dir='logs/{}'.format(time()))
 callbacks = [

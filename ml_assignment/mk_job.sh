@@ -17,8 +17,8 @@ echo "#SBATCH -o hvd_out_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 echo "#SBATCH -e hvd_err_"$1"_"$2".txt" >> "jobs/""$exp_name"".sh"
 
 echo "#SBATCH -t "$runtime":30:00" >> "jobs/""$exp_name"".sh"
-echo "#SBATCH --nodes "$2"" >> "jobs/""$exp_name"".sh"
-echo "#SBATCH --ntasks-per-node=4" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH --nodes 1" >> "jobs/""$exp_name"".sh"
+echo "#SBATCH --ntasks-per-node="$2"" >> "jobs/""$exp_name"".sh"
 echo "# Loading modules" >> "jobs/""$exp_name"".sh"
 
 
@@ -36,7 +36,7 @@ echo "# Copy input data from home to scratch" >> "jobs/""$exp_name"".sh"
 echo "cp -R \$HOME/"\$PATH_TO_SOURCE" "\$TMPDIR"" >> "jobs/""$exp_name"".sh"
 echo "cd "\$TMPDIR"/\$PATH_TO_SOURCE" >> "jobs/""$exp_name"".sh"
 
-echo "time \$PYTHON -u cifar10_hvd_"$1".py" >> "jobs/""$exp_name"".sh"
+echo "time mpirun -np "$2" \$PYTHON -u cifar10_hvd_"$1".py" >> "jobs/""$exp_name"".sh"
 echo "cp logs " "\$HOME"/"ml_assignment"/>> "jobs/""$exp_name"".sh"
 echo "mkdir "\$HOME"/"ml_assignment"/"$exp_name"">> "jobs/""$exp_name"".sh"
 echo "cp logs " "\$HOME"/"ml_assignment"/>> "jobs/""$exp_name"".sh"

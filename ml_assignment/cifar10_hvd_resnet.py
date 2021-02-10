@@ -1,9 +1,9 @@
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Activation
+from tensorflow.keras.layers import Dense, Activation, GlobalAveragePooling2D
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
+from tensorflow.keras import Input, Model
 from tensorflow.keras import backend as K
-from tensorflow.keras import Input
 import math
 import horovod.tensorflow.keras as hvd
 import wandb
@@ -12,6 +12,7 @@ from time import time
 from tensorflow.keras.callbacks import TensorBoard, ReduceLROnPlateau
 
 
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
 wandb.init(project='HPC_ML')
 
@@ -60,10 +61,15 @@ resNet = tf.keras.applications.ResNet50(
 
 resNet.trainable = False
 
-model = Sequential(
-    [Input(shape=(32, 32, 3)), resNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
-)
+inputs = Input(shape=(32, 32, 3))
+# `training=False` --> Inference mode.
+x = resNet(inputs, training=True)
+x = GlobalAveragePooling2D()(x)
+# A Dense classifier with a single unit (binary classification)
+outputs = Dense(num_classes, activation='softmax')(x)
+model = Model(inputs, outputs)
 
+model.summary()
 # Horovod: adjust learning rate based on number of GPUs.
 scaled_lr = 1. * hvd.size()
 opt = tf.keras.optimizers.Adadelta(scaled_lr)

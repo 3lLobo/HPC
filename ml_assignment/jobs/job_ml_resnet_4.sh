@@ -1,8 +1,8 @@
 #!/bin/bash -l
-#SBATCH -J hvd_effnet_1
-#SBATCH -o hvd_out_effnet_1.txt
-#SBATCH -e hvd_err_effnet_1.txt
-#SBATCH -t 1:00:00
+#SBATCH -J hvd_resnet_4
+#SBATCH -o hvd_out_resnet_4.txt
+#SBATCH -e hvd_err_resnet_4.txt
+#SBATCH -t 0:30:00
 #SBATCH --nodes 1
 #SBATCH --ntasks-per-node=4
 # Loading modules
@@ -18,6 +18,7 @@ export PATH_TO_SOURCE=ml_assignment
 # Copy input data from home to scratch
 cp -R $HOME/$PATH_TO_SOURCE $TMPDIR
 cd $TMPDIR/$PATH_TO_SOURCE
-time $PYTHON -u cifar10_hvd_effnet.py
-mkdir $HOME/ml_assignment/job_ml_effnet_1
+time mpirun -np 4 $PYTHON -u cifar10_hvd_resnet.py
+cp logs  $HOME/ml_assignment/
+mkdir $HOME/ml_assignment/job_ml_resnet_4
 cp logs  $HOME/ml_assignment/

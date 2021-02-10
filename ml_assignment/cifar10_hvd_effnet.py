@@ -6,13 +6,13 @@ from tensorflow.keras import Input, Model
 from tensorflow.keras import backend as K
 import math
 import horovod.tensorflow.keras as hvd
-from tensorflow.python.keras.backend import learning_phase
 import wandb
 from wandb.keras import WandbCallback
 from time import time
 from tensorflow.keras.callbacks import TensorBoard, ReduceLROnPlateau
 
 
+print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
 wandb.init(project='HPC_ML')
 
@@ -60,18 +60,9 @@ effNet = tf.keras.applications.EfficientNetB0(
 
 effNet.trainable = False
 
-# model = Sequential(
-#     [Input(shape=(32, 32, 3)), effNet, Dense(num_classes*2, activation='relu'),Dense(num_classes, activation='softmax'),]
-# )
-
-# model.summary()
-
 inputs = Input(shape=(32, 32, 3))
-# We make sure that the base_model is running in inference mode here,
-# by passing `training=False`. This is important for fine-tuning, as you will
-# learn in a few paragraphs.
-x = effNet(inputs, training=False)
-# Convert features of shape `base_model.output_shape[1:]` to vectors
+# `training=False` --> Inference mode.
+x = effNet(inputs, training=True)
 x = GlobalAveragePooling2D()(x)
 # A Dense classifier with a single unit (binary classification)
 outputs = Dense(num_classes, activation='softmax')(x)
