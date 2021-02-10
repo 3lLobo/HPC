@@ -22,7 +22,7 @@ batch_size = 128
 num_classes = 10
 
 # Horovod: adjust number of epochs based on number of GPUs.
-epochs = int(math.ceil(25.0 / hvd.size()))
+epochs = int(math.ceil(15.0 / hvd.size()))
 
 # Input image dimensions
 img_rows, img_cols = 32, 32
@@ -58,7 +58,7 @@ effNet = tf.keras.applications.EfficientNetB0(
     classifier_activation=None,
     )
 
-effNet.trainable = False
+# effNet.trainable = False
 
 inputs = Input(shape=(32, 32, 3))
 # `training=False` --> Inference mode.
@@ -117,17 +117,17 @@ score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
 
-# Fijne tune
-model.trainable = True
-opt = tf.keras.optimizers.Adadelta(1e-5)
-opt = hvd.DistributedOptimizer(opt)
-model.compile(loss=tf.keras.losses.sparse_categorical_crossentropy, optimizer=opt, metrics=['accuracy'])
-model.fit(x_train, y_train,
-          batch_size=batch_size,
-          callbacks=callbacks,
-          epochs=1,
-          verbose=1 if hvd.rank()==0 else 0,
-          validation_data=(x_test, y_test))
-score = model.evaluate(x_test, y_test, verbose=0)
-print('Ftuned Test loss:', score[0])
-print('Ftuned Test accuracy:', score[1])
+# # Fijne tune
+# model.trainable = True
+# opt = tf.keras.optimizers.Adadelta(1e-5)
+# opt = hvd.DistributedOptimizer(opt)
+# model.compile(loss=tf.keras.losses.sparse_categorical_crossentropy, optimizer=opt, metrics=['accuracy'])
+# model.fit(x_train, y_train,
+#           batch_size=batch_size,
+#           callbacks=callbacks,
+#           epochs=1,
+#           verbose=1 if hvd.rank()==0 else 0,
+#           validation_data=(x_test, y_test))
+# score = model.evaluate(x_test, y_test, verbose=0)
+# print('Ftuned Test loss:', score[0])
+# print('Ftuned Test accuracy:', score[1])

@@ -22,7 +22,7 @@ batch_size = 128
 num_classes = 10
 
 # Horovod: adjust number of epochs based on number of GPUs.
-epochs = int(math.ceil(25.0 / hvd.size()))
+epochs = int(math.ceil(15.0 / hvd.size()))
 
 # Input image dimensions
 img_rows, img_cols = 32, 32
@@ -59,7 +59,7 @@ resNet = tf.keras.applications.ResNet50(
     classifier_activation=None,
     )
 
-resNet.trainable = False
+# resNet.trainable = False
 
 inputs = Input(shape=(32, 32, 3))
 # `training=False` --> Inference mode.
