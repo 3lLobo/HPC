@@ -3,7 +3,9 @@
 __pycache__/
 ml_assignment/wandb/
 ml_assignment/results/
+ml_assignment/results_old/
 
+ml_assignment/results_new/
 wandb/
 logs/
 
