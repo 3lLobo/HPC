@@ -6,15 +6,11 @@ from tensorflow.keras import Input, Model
 from tensorflow.keras import backend as K
 import math
 import horovod.tensorflow.keras as hvd
-import wandb
-from wandb.keras import WandbCallback
 from time import time
 from tensorflow.keras.callbacks import TensorBoard, ReduceLROnPlateau
 
 
 print("Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
-wandb.login(key='6d802b44b97d25931bacec09c5f1095e6c28fe36')
-wandb.init(project='HPC_ML')
 
 # Horovod: initialize Horovod.
 hvd.init()
@@ -100,7 +96,6 @@ callbacks = [
 
     # Reduce the learning rate if training plateaues.
     ReduceLROnPlateau(patience=10, verbose=1),
-    WandbCallback(), tensorboard,
     ]
 
 # Horovod: save checkpoints only on worker 0 to prevent other workers from corrupting them.

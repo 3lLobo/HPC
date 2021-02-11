@@ -7,14 +7,12 @@ import pandas as pd
 import os
 import argparse
 
-def plot_graph(data, plot_type,  metric, plot_name, figsize, x_min_max=None, y_min_max=None, plot_legend=True, hide_yax= False, baseline=None):
+def plot_graph(data, plot_type,  metric, plot_name, figsize, x_min_max=None, y_min_max=None, plot_legend=True, hide_yax= False, baseline=None, palette='cool_r'):
     """
     Plot the input data to latex compatible .pgg format.
     """
     sns.set()
     sns.set_context("paper")
-    # sns.set(rc={'figure.figsize':figsize})
-    palette = 'cool_r'            #['copper_r', 'BuPu'afmhot_r cool_r] https://medium.com/@morganjonesartist/color-guide-to-seaborn-palettes-da849406d44f
 
     if plot_type == 'bar':
         data.dropna(inplace=True, subset=[metric])
@@ -34,9 +32,6 @@ def plot_graph(data, plot_type,  metric, plot_name, figsize, x_min_max=None, y_m
         g.set(ylim=y_min_max)
     if hide_yax:
         g.set_axis_labels(y_var='')
-    # plt.legend(loc='upper right', title='Metric')
-    # plt.xlabel('')
-    # plt.ylabel('Score')
     # plt.title(t_name.replace('_', ' ').title())
     folder = os.path.dirname(os.path.abspath(__file__)) + '/plots/'
     if not os.path.isdir(folder):
@@ -46,20 +41,29 @@ def plot_graph(data, plot_type,  metric, plot_name, figsize, x_min_max=None, y_m
 
 if __name__ == "__main__":
 
+#############################################################################
+###################### Adjust the plot here #################################
+
+
     plot_name = 'ml_plot'
-    plot_type = 'bar'
-    metric = 'Test Accuracy'
+    plot_type = 'bar'       # 'bar' or 'line'
+    metric = 'Test Accuracy'    # 'ETA Time' 'Train Accuracy' 'Real Time' 'Test Accuracy'
     if 'Accuracy' in metric:
-        baseline = .1
+        baseline = .1       # Random baseline
     else:
         baseline = None
     figsize = (4,3)
-    plot_legend = False   # "auto", "brief", "full", or False
-    hide_yax = False
+    plot_legend = False     # "auto", "brief", "full", or False
+    hide_yax = False        # Hide the y axis label
+    palette = 'cool_r'      #['copper_r', 'BuPu'afmhot_r cool_r] https://medium.com/@morganjonesartist/color-guide-to-seaborn-palettes-da849406d44f
+
+#############################################################################
+#############################################################################
 
     df_list = list()
     norm_param = {'effnet': 4.,'boring':1.6, 'resnet': 23.}
 
+    # This loads the data if it is already saved
     if os.path.isfile('./ml_assignment/ml_results.csv'):
         df = pd.read_csv('./ml_assignment/ml_results.csv')
     else:
@@ -111,4 +115,4 @@ if __name__ == "__main__":
     y_min_max = (0, max(df[metric])) #if max(df[metric])< 250 else 250)
     if 'Accuracy' in metric:
         y_min_max = (0, 1)
-    plot_graph(df, plot_type, metric, plot_name, figsize, x_min_max, y_min_max, plot_legend, hide_yax, baseline)
+    plot_graph(df, plot_type, metric, plot_name, figsize, x_min_max, y_min_max, plot_legend, hide_yax, baseline, palette)
