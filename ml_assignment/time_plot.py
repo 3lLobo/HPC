@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pandas.core.arrays import base
 import seaborn as sns
-from matplotlib.pyplot import figure, legend
 import pandas as pd
 import os
 import argparse
