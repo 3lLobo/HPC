@@ -1,5 +1,0 @@
-#!/bin/bash -e
-
-export OMP_NUM_THREADS=4
-
-./vm-omp

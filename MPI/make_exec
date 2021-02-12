@@ -1,5 +1,0 @@
-gcc -o exec exec.c -lm
-
-or 
-mpiCC -o exec exec.c -lm
-

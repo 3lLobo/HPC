@@ -1,8 +1,8 @@
-EXECUTABLES= vector-matrix vm-omp test
+EXECUTABLES= vector-matrix vm-omp test test2
 
 EXPENSIVE_JUNK += $(EXECUTABLES)
 
-SRC = vector-matrix.c vm-omp.c test.c
+SRC = vector-matrix.c vm-omp.c test.c test2.c
 
 JUNK +=
 
@@ -24,6 +24,9 @@ clean:
 
 empty:
 	rm -rf $(JUNK) $(EXPENSIVE_JUNK)
+
+test2: test2.c
+	mpiCC $(MPI_CFLAGS) -o test2 test2.c
 
 test: test.c
 	mpiCC $(MPI_CFLAGS) -o test test.c

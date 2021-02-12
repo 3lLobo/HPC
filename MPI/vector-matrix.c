@@ -1,4 +1,5 @@
 #define N 16000
+#define Z 1300
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
@@ -6,26 +7,26 @@
 #include <stddef.h>
 #include "mpi.h"
 
-
-void print_vector(char *prompt, int a[N]);
-void print_matrix(char *prompt, int a[N][N]);
+void print_vector(char *prompt, double a[N]);
+void print_matrix(char *prompt, double a[N][N]);
 
 
 int main(int argc, char *argv[])
 {
-    int i, rank, size, sum=0;
-    int vector[N];
-    int matrix[N][N];
-    int result[N];
-    int *chunk;
+    int i, rank, size;
+    double sum=0;
+    double vector[N];
+    double matrix[N][N];
+    double result[N];
+    double *chunk;
     double start, end, final;
 
     //Initialize simple vectors
     for(int k=0; k < N; k++){
-	vector[k] = k+1;
+	vector[k] =(double) k+1;
 	for (int r=0; r < N; r++){
-	    if (r == (N-1)) {matrix[k][r] = r+k;}
-	    else { matrix[k][r] = 1; } 
+	    if (r == (N-1)) {matrix[k][r] =(double) r+k;}
+	    else { matrix[k][r] = (double)1; } 
 	}
     }
 
@@ -39,61 +40,82 @@ int main(int argc, char *argv[])
     int local = (int)ceil((double)(N/size));
 
     //Allocate memory for distributed vector
-    chunk = (int*)malloc(N*local*sizeof(int));
+    chunk = (double*)malloc(N*local*sizeof(double));
 
     //scatter rows matrix to different processes     
-    MPI_Scatter(&matrix, N*local, MPI_INT, chunk, N*local, MPI_INT, 0, MPI_COMM_WORLD);
-
-    //broadcast vector to all processes
-    MPI_Bcast(&vector, N, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Scatter(&matrix, N*local, MPI_DOUBLE, chunk, N*local, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     // Time calculations
     start = MPI_Wtime();
 
-    MPI_Barrier(MPI_COMM_WORLD);
+    // Declare local variable
+    double cc[local];
 
-    //perform vector multiplication by all processes
-     int cc[local];
-     for (i=0; i<local; i++) { 
-     sum = 0;
-         for (int j=0; j<N; j++){ 
-        	sum += vector[j]*chunk[j+(i*N)];
-	} cc[i] = sum;
-     }  
+    for(int R=0; R<Z; R++){
+	if(R==0){ 
+	    //Broadcast Vector to all processes
+	    MPI_Bcast(&vector, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+        	for (i=0; i<local; i++) { 
+        		sum = 0;
+                	for (int j=0; j<N; j++){ 
+                        	sum += vector[j]*chunk[j+(i*N)];
+                	} cc[i] = sum;
+        } }
+	else
+	{
+   	//broadcast vector to all processes
+  	MPI_Bcast(&result, N, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    MPI_Gather(&cc, local, MPI_INT, result, local, MPI_INT, 0, MPI_COMM_WORLD);
-    MPI_Barrier(MPI_COMM_WORLD);
+
+    	//perform vector multiplication by all processes
+     	for (i=0; i<local; i++) { 
+     	sum = 0;
+         	for (int j=0; j<N; j++){ 
+        		sum += result[j]*chunk[j+(i*N)];
+		} cc[i] = sum;
+     	} }
+	MPI_Barrier(MPI_COMM_WORLD);
+
+    	MPI_Gather(&cc, local, MPI_DOUBLE, result, local, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+
+//	printf("Loop number: %d\n", R);
+//	print_vector("Vector used = ", vector);
+//	for(int h=0; h<N; h++){ vector[h] = result[h]; } 
+//	print_vector("Resulting vector = ", result);
+//	printf("\n");
+    } 
 
     end = MPI_Wtime();
     MPI_Finalize();
+
     if (rank == 0){
 	final = end - start;
-        printf("Processes: %2d \t Matrix size: %4d \t Time Elapsed: %f\n\n", size, N, final);
+        printf("Processes: %2d \t Loops: %d \t Matrix size: %4d \t Time Elapsed: %f\n\n", size, Z, N, final);
 //        print_vector("Initial vector = ", vector);
 //	print_matrix("Initial Matrix = ", matrix);
-//	print_vector("Resulting vector = ", result);
+//	print_vector("Final vector = ", result);
     }
 }
 
-void print_vector(char *prompt, int a[N])
+void print_vector(char *prompt, double a[N])
 {
     int i;
 
     printf ("\n\n%s\n", prompt);
     for (i = 0; i < N; i++) {
-        printf(" %d", a[i]);
+        printf(" %lf", a[i]);
     }
     printf ("\n");
 }
 
-void print_matrix(char *prompt, int a[N][N])
+void print_matrix(char *prompt, double a[N][N])
 {
     int i, j;
 
     printf ("\n\n%s\n", prompt);
     for (i = 0; i < N; i++) {
 	for (j=0; j<N; j++) {
-            printf(" %d", a[i][j]);
+            printf(" %lf", a[i][j]);
     } printf("\n"); }
     printf ("\n");
 }
