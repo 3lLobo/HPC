@@ -8,5 +8,5 @@ ml_assignment/results_old/
 ml_assignment/results_new/
 wandb/
 logs/
-.idea/
+parallel_ml/.idea/
 
