@@ -8,7 +8,5 @@ ml_assignment/results_old/
 ml_assignment/results_new/
 wandb/
 logs/
-
-# on Lisa
-*.slurm
+.idea/
 
